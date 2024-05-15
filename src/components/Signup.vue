@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 
 // const tabs = [
 //   {
@@ -17,13 +17,18 @@ const nome = ref('')
 const sobrenome =ref ('')
 const  email = ref('') 
 const  senha= ref('')
+const isRequired = ref(false)
+const cep = ref ('')
+const cidade = ref ('')
+const estado = ref ('') 
+const endereco = ref ('')
 function cadastro () { 
-  if  (nome.value != ""){
-    alert ("usuário  cadastrado com sucesso!", nome.value)
+  if (nome.value != "" && sobrenome.value != "" && email.value != "" && senha.value != ""){
+    isRequired.value=false
+    console.log(isRequired.value)
   }else {
-    alert("Preencha todos os campos.")
+    isRequired.value=true
   }
-alert(nome.value)
 }
 </script>
 <template>
@@ -61,80 +66,151 @@ alert(nome.value)
         <h2 class="text-2xl font-semibold mb-2 text-blue-600">Dados Pessoais</h2>
         <form class="w-full max-w-lg">
           <div class="w-full px-3 gap-3 mb-6 md:mb-0 flex">
-            <label
-              class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-              for="grid-first-name"
-            >
-              Primeiro nome
-            </label>
-            <input v-model="nome"
-              class="appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
-              id="grid-first-name"
-              type="text"
-              placeholder="Vulgo"
-            />
-            <label
-              class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-              for="grid-first-name"
-            >
-              Sobrenome
-            </label>
-            <input
-              class="appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
-              id="grid-first-name"
-              type="text"
-              placeholder="Silva"
-            />
-            <p class="text-red-500 text-xs italic">CAMPO OBRIGATÓRIO</p>
+            <div>
+              <label
+                class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                for="grid-first-name"
+              >
+                Primeiro nome
+              </label>
+              <input v-model="nome"
+                class="appearance-none block w-full bg-gray-200 text-gray-700 border border-black-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+                id="grid-first-name"
+                type="text"
+                placeholder="Vulgo"
+              />
+            </div>
+            <div>
+              <label
+                class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                for="grid-first-name"
+              >
+                Sobrenome
+              </label>
+              <input
+              v-model="sobrenome"
+                class="appearance-none block w-full bg-gray-200 text-gray-700 border border- to-black-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+                id="grid-first-name"
+                type="text"
+                placeholder="Silva"
+              />
+            </div>
           </div>
-          <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-           
-            <p class="text-red-500 text-xs italic">CAMPO OBRIGATÓRIO</p>
-          </div>
-          <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+          
+          <div class="w-full  gap-3 px-3 mb-6 md:mb-0 flex">
+          <div>
             <label
               class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
               for="grid-first-name"
             >
               Email
             </label>
-            <input
-              class="appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+            <input 
+            v-model="email"
+              class="appearance-none block w-full bg-gray-200 text-gray-700 border border-black-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
               id="grid-first-name"
               type="email"
               placeholder="ex@gmail.com"
             />
-            <p class="text-red-500 text-xs italic">CAMPO OBRIGATÓRIO</p>
           </div>
-          <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-            <label
+            <div>
+              <label
               class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
               for="grid-first-name"
             >
               Senha
             </label>
             <input
-              class="appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+            v-model="senha"
+              class="appearance-none block w-full bg-gray-200 text-gray-700 border border-black-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
               id="grid-first-name"
               type="password"
               placeholder="*****"
             />
-            <p class="text-red-500 text-xs italic">CAMPO OBRIGATÓRIO</p>
-          </div>
-          <button class="mt-5 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" @click="activeTab = 2">enviar</button>
+            </div>
+          </div> 
+          <div v-if="isRequired" class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+           
+           <p class="text-red-500 text-xs italic">CAMPOS OBRIGATÓRIO</p>
+         </div>
+          
+         
         </form>
+        <button class="mt-5 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" @click="cadastro">enviar</button>
       </div>
 
       <div
         v-show="activeTab === 2"
         class="transition-all duration-300 bg-white p-4 rounded-lg shadow-md border-l-4 border-blue-600"
       >
-        <h2 class="text-2xl font-semibold mb-2 text-blue-600">Section 2 Content</h2>
-        <p class="text-gray-700">
-          Proin non velit ac purus malesuada venenatis sit amet eget lacus. Morbi quis purus id
-          ipsum ultrices aliquet Morbi quis.
-        </p>
+       
+         
+        <div>
+              <label
+              class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+              for="grid-first-name"
+            >
+              Endereço
+            </label>
+            <input
+            v-model="endereco"
+              class="appearance-none block w-full bg-gray-200 text-gray-700 border border-black-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+              id="grid-first-name"
+              type="text"
+              placeholder="Rua das Colves n 08"
+            />
+            </div>
+            <div>
+              <label
+              class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+              for="grid-first-name"
+            >
+              CEP
+            </label>
+            <input
+            v-model="cep"
+              class="appearance-none block w-full bg-gray-200 text-gray-700 border border-black-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+              id="grid-first-name"
+              type="text"
+              placeholder="04569-070"
+            />
+            </div>
+            <div>
+              <label
+              class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+              for="grid-first-name"
+            >
+             Cidade
+            </label>
+            <input
+            v-model="cidade"
+              class="appearance-none block w-full bg-gray-200 text-gray-700 border border-black-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+              id="grid-first-name"
+              type="text"
+              placeholder="São Paulo"
+            />
+            </div>
+            <div>
+              <label
+              class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+              for="grid-first-name"
+            >
+             Estado
+            </label>
+            <input
+            v-model="estado"
+              class="appearance-none block w-full bg-gray-200 text-gray-700 border border-black-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+              id="grid-first-name"
+              type="text"
+              placeholder="São Paulo"
+            />
+            </div>
+            </div>
+            
       </div>
+  
+     
+     
 
       <div
         v-show="activeTab === 3"
@@ -147,5 +223,5 @@ alert(nome.value)
         </p>
       </div>
     </div>
-  </div>
+  
 </template>
